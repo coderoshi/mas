@@ -1,4 +1,3 @@
-// import { AddressZero } from "@ethersproject/constants";
 import sdk from "./1-initialize-sdk.js";
 import { readFileSync } from "fs";
 
@@ -16,7 +15,7 @@ const walletAddress = process.env.WALLET_ADDRESS;
       // We're planning on not charging people for the drop, so we'll pass in the 0x0 address
       // you can set this to your own wallet address if you want to charge for the drop.
       // primary_sale_recipient: AddressZero,
-      primary_sale_recipient: walletAddress
+      primary_sale_recipient: walletAddress,
     });
 
     // this initialization returns the address of our contract

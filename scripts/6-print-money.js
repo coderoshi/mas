@@ -14,7 +14,7 @@ const token = sdk.getToken(tokenAddress);
     const totalSupply = await token.totalSupply();
 
     // Print out how many of our token's are out there now!
-    console.log("✅ There now is", totalSupply.displayValue, "$HOKAGE in circulation");
+    console.log("✅ There now is", totalSupply.displayValue, "$MASY in circulation");
   } catch (error) {
     console.error("Failed to print money", error);
   }

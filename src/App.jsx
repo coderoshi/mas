@@ -1,6 +1,7 @@
 import { useAddress, useMetamask, useEditionDrop, useToken, useVote, useNetwork } from '@thirdweb-dev/react';
 import { ChainId } from '@thirdweb-dev/sdk'
 import { useState, useEffect, useMemo } from 'react';
+// TODO: using AddressZero is a red flag, double check how its used
 import { AddressZero } from "@ethersproject/constants";
 
 const App = () => {
@@ -174,6 +175,16 @@ const App = () => {
     } catch (error) {
       setHasClaimedNFT(false);
       console.error("Failed to mint NFT", error);
+      // TODO: horrible hacky shit, handle errors better
+      // Metamask code: 4001 means user rejected
+      let errorStr = JSON.stringify(error);
+      if(errorStr.includes("UNPREDICTABLE_GAS_LIMIT")) {
+        alert("Failed to mint NFT.\nYou may need extra ETH in your wallet");
+      } else if((""+error).includes("No claim found for this address")) {
+        alert("Failed to mint NFT.\nYou wallet address is not on the ALLOW LIST");
+      } else {
+        alert("Failed to mint NFT.\n" + errorStr);
+      }
     } finally {
       setIsClaiming(false);
     }
@@ -209,8 +220,10 @@ const App = () => {
   if (hasClaimedNFT) {
     return (
       <div className="member-page">
-        <h1>DAO Member Page</h1>
-        <p>Congratulations on being a member</p>
+        <img src="/madder-science-logo.png"
+          alt="Madder Science logo"
+          className="header-logo"></img>
+        <h3>Madder Science Member Portal</h3>
         <div>
           <div>
             <h2>Member List</h2>
@@ -366,6 +379,7 @@ const App = () => {
   return (
     <div className="mint-nft">
       <h1>Mint your DAO Membership NFT</h1>
+      <div>{shortenAddress(address)}</div>
       <button
         disabled={isClaiming}
         onClick={mintNft}

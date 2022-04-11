@@ -9,7 +9,7 @@ const editionDrop = sdk.getEditionDrop(editionAddress);
   try {
     await editionDrop.createBatch([
       {
-        name: "Madder Scientist NX",
+        name: "Madder Scientist Ex Nihilo",
         description: "This NFT will mark you as an owner and give you access to Madder Science DAO",
         // TODO: set this as a URL behind a CDN
         image: readFileSync("scripts/assets/madder-science-xn.mp4"),

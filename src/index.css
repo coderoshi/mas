@@ -17,9 +17,18 @@ body {
 h1 {
   font-size: 5rem;
 }
+.member-page img.header-logo {
+  max-width: 50%;
+  text-align: center;
+  margin: auto;
+  align-content: center;
+}
 @media screen and (max-width: 768px) {
   h1 {
     font-size: 3rem;
+  }
+  .member-page img.header-logo {
+    max-width: 100%;
   }
 }
 
