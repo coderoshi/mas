@@ -1,27 +1,25 @@
-import { ethers } from "ethers";
 import sdk from "./1-initialize-sdk.js";
 
-// This is our governance contract.
-const voteModule = sdk.getVoteModule(
-  "0x7cC31a19907dcD115cF69A2fdb6aAdf67841b631",
-);
+const tokenAddress = "0x95155e455E0AF4EC02DA56Ad5C630eBbe566a18E";
+const voteAddress = "0x03EEEC7E393cDBC46F0beF4a4CD51C78d8bE3172";
 
 // This is our ERC-20 contract.
-const tokenModule = sdk.getTokenModule(
-  "0x5BaEeaA97f6Fa43B810cCb771d2F01B7A72b65A4",
-);
+const token = sdk.getToken(tokenAddress);
+
+// This is our governance contract.
+const vote = sdk.getVote(voteAddress);
 
 (async () => {
   try {
     // Give our treasury the power to mint additional token if needed.
-    await tokenModule.grantRole("minter", voteModule.address);
+    await token.roles.grant("minter", vote.getAddress());
 
     console.log(
-      "Successfully gave vote module permissions to act on token module"
+      "Successfully gave vote contract permissions to act on token contract"
     );
   } catch (error) {
     console.error(
-      "failed to grant vote module permissions on token module",
+      "failed to grant vote contract permissions on token contract",
       error
     );
     process.exit(1);
@@ -29,23 +27,25 @@ const tokenModule = sdk.getTokenModule(
 
   try {
     // Grab our wallet's token balance, remember -- we hold basically the entire supply right now!
-    const ownedTokenBalance = await tokenModule.balanceOf(
-      // The wallet address stored in your env file or Secrets section of Repl
-      process.env.WALLET_ADDRESS
-    );
+    // const ownedTokenBalance = await token.balanceOf(
+    //   process.env.WALLET_ADDRESS
+    // );
 
     // Grab 90% of the supply that we hold.
-    const ownedAmount = ethers.BigNumber.from(ownedTokenBalance.value);
-    const percent90 = ownedAmount.div(100).mul(90);
+    // const ownedAmount = ownedTokenBalance.displayValue;
+    // const percent90 = Number(ownedAmount) / 100 * 90;
+
+    // 5M - distribution = 1,467,000 remaining
+    const treasuryCount = 1467000;
 
     // Transfer 90% of the supply to our voting contract.
-    await tokenModule.transfer(
-      voteModule.address,
-      percent90
+    await token.transfer(
+      vote.getAddress(),
+      treasuryCount
     );
 
-    console.log("✅ Successfully transferred tokens to vote module");
+    console.log("✅ Successfully transferred " + treasuryCount + " tokens to vote contract");
   } catch (err) {
-    console.error("failed to transfer tokens to vote module", err);
+    console.error("failed to transfer tokens to vote contract", err);
   }
 })();

@@ -1,10 +1,9 @@
 import sdk from "./1-initialize-sdk.js";
 import { readFileSync } from "fs";
 
-// TODO: pull editionDropAddress from database
-const editionDropAddress = "0xe7Ba4502Fad6bfCac297CAA95b6287606b9AB015";
+const editionAddress = "0xe7Ba4502Fad6bfCac297CAA95b6287606b9AB015";
 
-const editionDrop = sdk.getEditionDrop(editionDropAddress);
+const editionDrop = sdk.getEditionDrop(editionAddress);
 
 (async () => {
   try {
@@ -12,6 +11,7 @@ const editionDrop = sdk.getEditionDrop(editionDropAddress);
       {
         name: "Madder Scientist NX",
         description: "This NFT will mark you as an owner and give you access to Madder Science DAO",
+        // TODO: set this as a URL behind a CDN
         image: readFileSync("scripts/assets/madder-science-xn.mp4"),
       },
     ]);
@@ -19,4 +19,4 @@ const editionDrop = sdk.getEditionDrop(editionDropAddress);
   } catch (error) {
     console.error("failed to create the new NFT", error);
   }
-})()
+})();

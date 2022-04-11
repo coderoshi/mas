@@ -1,26 +1,25 @@
 import sdk from "./1-initialize-sdk.js";
 
-const tokenModule = sdk.getTokenModule(
-  "0x5BaEeaA97f6Fa43B810cCb771d2F01B7A72b65A4",
-);
+// const tokenAddress = "0x95155e455E0AF4EC02DA56Ad5C630eBbe566a18E";
+
+const token = sdk.getToken("INSERT_TOKEN_ADDRESS");
 
 (async () => {
   try {
     // Log the current roles.
-    console.log(
-      "👀 Roles that exist right now:",
-      await tokenModule.getAllRoleMembers()
-    );
+    const allRoles = await token.roles.getAll();
+
+    console.log("👀 Roles that exist right now:", allRoles);
 
     // Revoke all the superpowers your wallet had over the ERC-20 contract.
-    await tokenModule.revokeAllRolesFromAddress(process.env.WALLET_ADDRESS);
+    await token.roles.setAll({ admin: [], minter: [] });
     console.log(
       "🎉 Roles after revoking ourselves",
-      await tokenModule.getAllRoleMembers()
+      await token.roles.getAll()
     );
     console.log("✅ Successfully revoked our superpowers from the ERC-20 contract");
 
   } catch (error) {
-    console.error("Failed to revoke ourselves from the DAO treasury", error);
+    console.error("Failed to revoke ourselves from the DAO trasury", error);
   }
 })();
