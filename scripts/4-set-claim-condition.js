@@ -18,11 +18,11 @@ const editionDrop = sdk.getEditionDrop(editionAddress);
     // we can have multiple phases starting at different times if we want to
     const claimConditions = [{
       // When people are gonna be able to start claiming the NFTs (now)
-      startTime: new Date(2022, 4, 10),
+      startTime: new Date(2022, 4, 14),
       // The maximum number of NFTs that can be claimed.
       maxQuantity: 21,
-      // The price of our NFT (free)
-      price: 0.0001, //1.5,
+      // The price of the XN NFT
+      price: 1.5,
       // The amount of NFTs people can claim in one transaction.
       quantityLimitPerTransaction: 1,
       // We set the wait between transactions to MaxUint256, which means

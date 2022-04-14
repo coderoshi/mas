@@ -17,6 +17,7 @@ const App = () => {
 
   // Initialize our editionDrop contract
   const editionDrop = useEditionDrop(editionAddress);
+  
   // Initialize our token contract
   const token = useToken(tokenAddress)
   // Initialize our vote contract
@@ -170,7 +171,7 @@ const App = () => {
     try {
       setIsClaiming(true);
       await editionDrop.claim("0", 1);
-      console.log(`🌊 Successfully Minted! Check it out on OpenSea: https://testnets.opensea.io/assets/${editionDrop.getAddress()}/0`);
+      console.log(`🌊 Successfully Minted! Check it out on OpenSea: https://opensea.io/assets/${editionDrop.getAddress()}/0`);
       setHasClaimedNFT(true);
     } catch (error) {
       setHasClaimedNFT(false);
@@ -203,12 +204,12 @@ const App = () => {
     );
   }
 
-  if (network?.[0].data.chain.id !== ChainId.Rinkeby) {
+  if (network?.[0].data.chain.id !== ChainId.Mainnet) { //Rinkeby) {
     return (
       <div className="unsupported-network">
-        <h2>Please connect to Rinkeby</h2>
+        <h2>Please connect to Mainnet</h2>
         <p>
-          This dapp only works on the Rinkeby network, please switch networks
+          This dapp only works on the Mainnet network, please switch networks
           in your connected wallet.
         </p>
       </div>
